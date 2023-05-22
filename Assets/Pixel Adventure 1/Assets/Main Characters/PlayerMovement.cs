@@ -8,16 +8,18 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sprite;
-
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundLayer;
+    private BoxCollider2D boxCollider;
 
     private float dirX = 0f;
 
+    private bool doubleJump;
+
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 14f;
+    [SerializeField] private LayerMask JumpableGround;
 
-    private bool doubleJump;
+    int addjump= 0;
+
 
     private enum MovementState { idle, running, jumping, falling, doublejump }
     
@@ -28,22 +30,39 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+
         dirX = Input.GetAxisRaw("Horizontal");
 
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
+        if (IsGrounded() && !Input.GetButton("Jump"))
+        {
+            doubleJump = false;
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
+
             if (IsGrounded() || doubleJump)
             {
+                Debug.Log(addjump);
+
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
 
-                doubleJump = !doubleJump;
+                if (IsGrounded() || doubleJump)
+                {
+                    addjump += 1;
+
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+                    doubleJump = !doubleJump;
+                }
             }
         }
 
@@ -54,6 +73,11 @@ public class PlayerMovement : MonoBehaviour
 
 
         UpdateAnimationState();
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, JumpableGround);    
     }
 
     private void UpdateAnimationState()
@@ -75,20 +99,20 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.idle;
         }
 
-        if (rb.velocity.y > .1f)
+        if (addjump == 1)
         {
             state = MovementState.jumping;
+        }
+        else if (addjump == 2)
+        {
+            state = MovementState.doublejump;
         }
         else if(rb.velocity.y < -.1f)
         {
             state = MovementState.falling;
         }
 
-        anim.SetInteger("State", (int)state);
-    }
 
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        anim.SetInteger("State", (int)state);
     }
 }
