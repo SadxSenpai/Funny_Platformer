@@ -62,6 +62,8 @@ public class PlayerMovement : MonoBehaviour
                     doubleJump = !doubleJump;
 
                     jumpCount++;
+
+                    Debug.Log(jumpCount);
                 }
             }
         }
@@ -101,7 +103,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (rb.velocity.y > .1f)
         {
-            state = MovementState.jumping;
+            if (jumpCount == 1)
+            {
+                state = MovementState.jumping;
+            }
+            if (jumpCount == 2)
+            {
+                state = MovementState.doublejump;
+            }
         }
 
         else if(rb.velocity.y < -.1f)
