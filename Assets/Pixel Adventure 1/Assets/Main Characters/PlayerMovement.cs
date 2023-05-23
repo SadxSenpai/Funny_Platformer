@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 14f;
     [SerializeField] private LayerMask JumpableGround;
 
-    int addjump= 0;
+    private int jumpCount;
 
 
     private enum MovementState { idle, running, jumping, falling, doublejump }
@@ -44,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
         if (IsGrounded() && !Input.GetButton("Jump"))
         {
             doubleJump = false;
+
+            jumpCount = 0;
         }
 
         if (Input.GetButtonDown("Jump"))
@@ -51,17 +53,15 @@ public class PlayerMovement : MonoBehaviour
 
             if (IsGrounded() || doubleJump)
             {
-                Debug.Log(addjump);
-
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
 
                 if (IsGrounded() || doubleJump)
                 {
-                    addjump += 1;
-
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
 
                     doubleJump = !doubleJump;
+
+                    jumpCount++;
                 }
             }
         }
@@ -99,14 +99,11 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.idle;
         }
 
-        if (addjump == 1)
+        if (rb.velocity.y > .1f)
         {
             state = MovementState.jumping;
         }
-        else if (addjump == 2)
-        {
-            state = MovementState.doublejump;
-        }
+
         else if(rb.velocity.y < -.1f)
         {
             state = MovementState.falling;
