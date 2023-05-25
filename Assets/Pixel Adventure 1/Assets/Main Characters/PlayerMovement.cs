@@ -11,12 +11,16 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D boxCollider;
 
     private float dirX = 0f;
-
     private bool doubleJump;
+
+    private bool isWallSliding;
+    private float wallSlidingSpeed = 2f;
 
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 14f;
     [SerializeField] private LayerMask JumpableGround;
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private LayerMask JumpableWall;
 
     private int jumpCount;
 
@@ -72,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
-
+        WallSlide();
 
         UpdateAnimationState();
     }
@@ -80,6 +84,24 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded()
     {
         return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, JumpableGround);    
+    }
+
+    private bool IsWalled()
+    {
+        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, JumpableWall);
+    }
+
+    private void WallSlide()
+    {
+        if (IsWalled() && !IsGrounded() && dirX != 0f)
+        {
+            isWallSliding = true;
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+        }
+        else
+        {
+            isWallSliding = false;
+        }
     }
 
     private void UpdateAnimationState()
