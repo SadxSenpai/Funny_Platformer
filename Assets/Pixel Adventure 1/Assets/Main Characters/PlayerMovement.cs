@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private float dirX = 0f;
     private bool doubleJump;
 
-    private bool isWallSliding;
+    private bool isWallSliding = false;
     private float wallSlidingSpeed = 2f;
 
     [SerializeField] private float moveSpeed = 7f;
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCount;
 
 
-    private enum MovementState { idle, running, jumping, falling, doublejump }
+    private enum MovementState { idle, running, jumping, falling, doublejump, wallslide, walljump }
     
 
     // Start is called before the first frame update
@@ -40,7 +40,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Debug.Log(IsWalled());
+        Debug.Log(IsWalled_R());
+        Debug.Log(IsWalled_L());
 
         dirX = Input.GetAxisRaw("Horizontal");
 
@@ -87,14 +88,18 @@ public class PlayerMovement : MonoBehaviour
         return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, JumpableGround);    
     }
 
-    private bool IsWalled()
+    private bool IsWalled_R()
     {
-        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, JumpableWall);
+        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.right, .1f, JumpableWall);
+    }
+    private bool IsWalled_L()
+    {
+        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.right, -.1f, JumpableWall);
     }
 
     private void WallSlide()
     {
-        if (IsWalled() && !IsGrounded() && dirX != 0f)
+        if (IsWalled_R() || IsWalled_L() && !IsGrounded() && dirX != 0f)
         {
             isWallSliding = true;
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
@@ -136,9 +141,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        else if(rb.velocity.y < -.1f)
+        else if (rb.velocity.y < -.1f)
         {
-            state = MovementState.falling;
+            if (isWallSliding == true)
+            {
+                state = MovementState.wallslide;
+            }
+            else
+            {
+                state = MovementState.falling;
+            }
         }
 
 
