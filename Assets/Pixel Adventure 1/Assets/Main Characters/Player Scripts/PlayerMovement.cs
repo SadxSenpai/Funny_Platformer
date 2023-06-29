@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float dirX = 0f;
     private bool doubleJump;
+    private bool falling;
 
     private bool isWallSliding = false;
     private float wallSlidingSpeed = 2f;
@@ -40,9 +41,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Debug.Log(IsWalled_R());
-        Debug.Log(IsWalled_L());
-
         dirX = Input.GetAxisRaw("Horizontal");
 
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
@@ -61,15 +59,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
 
-                if (IsGrounded() || doubleJump)
+                if (IsGrounded() || doubleJump || falling)
                 {
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
 
                     doubleJump = !doubleJump;
 
-                    jumpCount++;
+                    falling = !falling;
 
-                    Debug.Log(jumpCount);
+                    jumpCount++;
                 }
             }
         }
@@ -81,11 +79,29 @@ public class PlayerMovement : MonoBehaviour
         WallSlide();
 
         UpdateAnimationState();
+
+        Debug.Log(falling);
     }
 
-    private bool IsGrounded()
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, JumpableGround);    
+        if (other.gameObject.tag == "Ground")
+        {
+            falling = false;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Ground")
+        {
+            falling = true;
+        }
+    }
+
+
+            private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .2f, JumpableGround);    
     }
 
     private bool IsWalled_R()
@@ -94,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool IsWalled_L()
     {
-        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.right, -.1f, JumpableWall);
+        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.right, -.2f, JumpableWall);
     }
 
     private void WallSlide()
