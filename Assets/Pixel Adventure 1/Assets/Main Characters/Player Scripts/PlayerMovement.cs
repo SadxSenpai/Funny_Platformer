@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private float speed = 8f;
     private float jumpingPower = 16f;
     private bool isFacingRight = true;
+    private bool isFalling;
 
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
@@ -43,24 +44,36 @@ public class PlayerMovement : MonoBehaviour
             doubleJump = false;
 
             jumpCount = 0;
-        }   
+        }
+
+
+        if (rb.velocity.y < 0f)
+        {
+            isFalling = true;
+        }
+        else
+        {
+            isFalling = false;
+        }
 
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetButtonDown("Jump"))
         {
 
-            if (IsGrounded() || doubleJump)
+            if (IsGrounded() || doubleJump || isFalling && jumpCount < 2)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
 
-                if (IsGrounded() || doubleJump)
+                if (IsGrounded() || doubleJump || isFalling && jumpCount < 2)
                 {
                     rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
 
                     doubleJump = !doubleJump;
 
                     jumpCount++;
+
+                    Debug.Log(jumpCount);
                 }
             }
         }
