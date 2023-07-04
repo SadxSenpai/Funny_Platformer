@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private float wallJumpingDuration = 0.4f;
     private Vector2 wallJumpingPower = new Vector2(8f, 16f);
 
+    [SerializeField] private AudioSource jumpSoundEffect;
     [SerializeField] private Animator anim;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
@@ -63,18 +64,15 @@ public class PlayerMovement : MonoBehaviour
 
             if (IsGrounded() || doubleJump || isFalling && jumpCount < 2)
             {
+                jumpSoundEffect.Play();
+
                 rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
 
-                if (IsGrounded() || doubleJump || isFalling && jumpCount < 2)
-                {
-                    rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                doubleJump = !doubleJump;
 
-                    doubleJump = !doubleJump;
+                jumpCount++;
 
-                    jumpCount++;
-
-                    Debug.Log(jumpCount);
-                }
+                Debug.Log(jumpCount);
             }
         }
 
@@ -130,7 +128,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isWallSliding)
         {
-            jumpCount = 2;
+            jumpSoundEffect.Play();
+            jumpCount = 1;
             isWallJumping = false;
             wallJumpingDirection = -transform.localScale.x;
             wallJumpingCounter = wallJumpingTime;
