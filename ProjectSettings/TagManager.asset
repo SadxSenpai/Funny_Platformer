@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Cherry
   - Trap
+  - Fruits
   layers:
   - Default
   - TransparentFX
@@ -48,4 +48,7 @@ TagManager:
     locked: 0
   - name: Terrain
     uniqueID: 680437223
+    locked: 0
+  - name: UI
+    uniqueID: 3962018843
     locked: 0
