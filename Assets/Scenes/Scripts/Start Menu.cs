@@ -7,9 +7,14 @@ public class StartMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene(2);
+        Destroy(GameObject.Find("Game Music"));
+        SceneManager.LoadScene(3);
     }
     public void OpenLevels()
+    {
+        SceneManager.LoadScene(2);
+    }
+    public void OpenSettings()
     {
         SceneManager.LoadScene(1);
     }

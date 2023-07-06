@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -51,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
         if (rb.velocity.y < 0f)
         {
             isFalling = true;
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -20f, 0f));
         }
         else
         {
@@ -71,8 +73,6 @@ public class PlayerMovement : MonoBehaviour
                 doubleJump = !doubleJump;
 
                 jumpCount++;
-
-                Debug.Log(jumpCount);
             }
         }
 
@@ -84,8 +84,6 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimationState();
         WallSlide();
         WallJump();
-
-        Debug.Log(jumpCount);
 
         if (!isWallJumping)
         {
