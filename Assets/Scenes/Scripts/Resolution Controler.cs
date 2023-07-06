@@ -22,9 +22,7 @@ public class ResolutionControler : MonoBehaviour
         filterdResolutions = new List<Resolution>();
 
         resolutionDropdown.ClearOptions();
-#pragma warning disable CS0618 // Type or member is obsolete
         currentRefreshRate = Screen.currentResolution.refreshRate;
-#pragma warning restore CS0618 // Type or member is obsolete
 
         for (int i = 0; i < resolutions.Length; i++)
         {
