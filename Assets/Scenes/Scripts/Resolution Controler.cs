@@ -13,7 +13,7 @@ public class ResolutionControler : MonoBehaviour
     private float currentRefreshRate;
     private int currentResolutionIndex = 0;
 
-
+    string filepath = "Assets/Scenes/Scripts/Resolution Controler.cs";
 
     // Start is called before the first frame update
     void Start()
