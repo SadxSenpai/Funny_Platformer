@@ -130733,6 +130733,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1764412705509974428, guid: 6727178ab18925146a6cd548096213d0, type: 3}
+      propertyPath: fruitText
+      value: 
+      objectReference: {fileID: 1059286443}
+    - target: {fileID: 1764412705509974428, guid: 6727178ab18925146a6cd548096213d0, type: 3}
       propertyPath: cherriesText
       value: 
       objectReference: {fileID: 1059286443}

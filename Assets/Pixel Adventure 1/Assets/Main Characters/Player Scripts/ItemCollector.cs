@@ -7,7 +7,7 @@ public class ItemCollector : MonoBehaviour
 {
     int Fruits = 0;
 
-    [SerializeField] private Text cherriesText;
+    [SerializeField] private Text fruitText;
 
     [SerializeField] private AudioSource collectionSoundEffect;
 
@@ -17,7 +17,7 @@ public class ItemCollector : MonoBehaviour
         {
             collectionSoundEffect.Play();
             Fruits++;
-            cherriesText.text = "Fruits: " + Fruits;
+            fruitText.text = "Fruits: " + Fruits;
         }
     }
 }
