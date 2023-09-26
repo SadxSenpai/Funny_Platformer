@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 467413719192460805}
   - component: {fileID: 467413719192460804}
   - component: {fileID: 7258129355598001906}
+  - component: {fileID: 4483650683057876351}
+  - component: {fileID: 3660728138982956903}
   - component: {fileID: 467413719192460825}
-  - component: {fileID: 3610962199857530834}
-  - component: {fileID: 1764412705509974428}
   - component: {fileID: 5901105879750703904}
+  - component: {fileID: 3610962199857530834}
   - component: {fileID: 3511416880961574336}
   - component: {fileID: 3606741293226549735}
   - component: {fileID: 961765355909980247}
@@ -42,7 +43,7 @@ Transform:
   - {fileID: 8438710705407163477}
   - {fileID: 8316734924033476277}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &467413719192460805
 SpriteRenderer:
@@ -146,6 +147,34 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &4483650683057876351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467413719192460803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b762de6b28c8747967e9a72ca4f85e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruitText: {fileID: 0}
+  collectionSoundEffect: {fileID: 0}
+--- !u!114 &3660728138982956903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467413719192460803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe697250989ec114a805d0ab107e97b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  highscoreText: {fileID: 0}
 --- !u!95 &467413719192460825
 Animator:
   serializedVersion: 5
@@ -166,6 +195,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &5901105879750703904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467413719192460803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879e799fe8885674a8d5eb8073d4164b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSoundEffect: {fileID: 961765355909980247}
 --- !u!61 &3610962199857530834
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -211,33 +253,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.95614195, y: 1.4824574}
   m_EdgeRadius: 0
---- !u!114 &1764412705509974428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467413719192460803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93b762de6b28c8747967e9a72ca4f85e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cherriesText: {fileID: 0}
-  collectionSoundEffect: {fileID: 3606741293226549735}
---- !u!114 &5901105879750703904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467413719192460803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 879e799fe8885674a8d5eb8073d4164b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathSoundEffect: {fileID: 961765355909980247}
 --- !u!82 &3511416880961574336
 AudioSource:
   m_ObjectHideFlags: 0

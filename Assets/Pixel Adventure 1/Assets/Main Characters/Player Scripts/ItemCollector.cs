@@ -10,7 +10,7 @@ public class ItemCollector : MonoBehaviour
     [SerializeField] private Text fruitText;
 
     [SerializeField] private AudioSource collectionSoundEffect;
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Fruits"))
@@ -18,6 +18,7 @@ public class ItemCollector : MonoBehaviour
             collectionSoundEffect.Play();
             Fruits++;
             fruitText.text = "Fruits: " + Fruits;
+            ScoreManager.instance.AddPoint();
         }
     }
 }
